@@ -13,7 +13,9 @@ postSchema = new mongoose.Schema({
         type : String,
     },
     authorId: {
-        type : String,
+        type : mongoose.Schema.ObjectId,
+        required : true,
+        ref : 'User',
     }
 
 

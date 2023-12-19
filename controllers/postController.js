@@ -12,14 +12,14 @@ const createPost = asyncHandler( async (req,res)=>{
         title,
         body,
         author : req.user.username,
-        userId : req.user.id,
+        authorId : req.user.id,
     });
     res.status(200).json(post);
 
 });
 
 const updatePost = asyncHandler( async (req,res)=>{
-    const post = Post.findByIdAndUpdate(
+    const post = await Post.findByIdAndUpdate(
         req.params.id,
         req.body,
         {new : true},
@@ -28,9 +28,25 @@ const updatePost = asyncHandler( async (req,res)=>{
         res.status(404);
         throw new Error("post not found");
     };
-    if(post.userId !== req.user.id){
+    if(post.authorId != req.user.id){
         res.status(403);
         throw new Error("not authorized to edit others posts");
     }
     res.status(200).json(post);
 });
+
+const deletPost = asyncHandler( async (req,res)=> {
+    const post = await Post.findById(req.params.id);
+    if(!post){
+        res.status(404);
+        throw new Error('post not found');
+    };
+    if(post.authorId != req.user.id){
+        res.status(403);
+        throw new Error("not authorized to edit others posts");     
+    };
+    await post.deleteOne({_id : req.params.id});
+    res.status(200).json(post);
+})
+
+module.exports = {updatePost,createPost,deletPost};
