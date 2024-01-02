@@ -65,7 +65,7 @@ const verifyUser = asyncHandler( async (req,res)=>{
     };
     user.verified = true;
     await user.save();
-    await Token.deleteOne({_id : token.id});}
+    await Token.deleteOne({_id : token._id});}
 
     res.send("email verified sucessfully");
 
