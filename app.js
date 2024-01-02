@@ -1,11 +1,12 @@
 const dotenv = require('dotenv').config();
 const express = require('express');
+const nodemailer = require('nodemailer');
 const connectDb = require('./config/dbConnection');
 const errorHandler = require('./middlewares/errorHandler');
 
 const app = express();
 
-const PORT = 5001 || process.env.PORT;
+const PORT = process.env.PORT || 5001 ;
 connectDb();
 app.use(express.json());
 

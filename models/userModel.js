@@ -15,6 +15,8 @@ userSchema = new mongoose.Schema({
         type : String ,
         required : [true , "please enter your password"],
     },
+
+    verified : {type :Boolean, default : false },
     
 },
 
